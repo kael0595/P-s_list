@@ -1,8 +1,11 @@
 package com.project.P_list.member.entity;
 
 import com.project.P_list.base.entity.BaseEntity;
+import com.project.P_list.member.enums.Grade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -46,4 +49,7 @@ public class Member extends BaseEntity {
     @NotNull
     @Builder.Default
     private String deleteYn = "N";
+
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
 }
