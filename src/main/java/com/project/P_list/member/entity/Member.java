@@ -3,6 +3,7 @@ package com.project.P_list.member.entity;
 import com.project.P_list.base.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class Member extends BaseEntity {
 
     @NotNull
     @Column(nullable = false)
+    @Email
     private String email;
 
     @NotNull
@@ -40,4 +42,8 @@ public class Member extends BaseEntity {
     private String addr1;
 
     private String addr2;
+
+    @NotNull
+    @Builder.Default
+    private String deleteYn = "N";
 }
