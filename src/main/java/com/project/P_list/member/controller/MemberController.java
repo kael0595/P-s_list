@@ -39,4 +39,9 @@ public class MemberController {
         return "/member/login";
 
     }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "/member/login";
+    }
 }
