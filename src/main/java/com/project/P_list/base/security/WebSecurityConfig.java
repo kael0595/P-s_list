@@ -24,10 +24,13 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/member/login")
-                        .defaultSuccessUrl("/"))
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/member/login?error=true")
+                )
                 .logout(logout -> logout
                         .logoutUrl("/member/logout")
                         .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                 );
         return http.build();
