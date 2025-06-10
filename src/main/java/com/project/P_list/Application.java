@@ -1,4 +1,4 @@
-package com.project.P.s_list;
+package com.project.P_list;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
