@@ -1,12 +1,16 @@
 package com.project.P_list.member.controller;
 
 import com.project.P_list.member.dto.MemberDto;
+import com.project.P_list.member.entity.Member;
 import com.project.P_list.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,5 +47,17 @@ public class MemberController {
     @GetMapping("/login")
     public String loginForm() {
         return "/member/login";
+    }
+
+    @GetMapping("/mypage/{username}")
+    public String mypage(@PathVariable("username") String username,
+                         Model model) {
+
+        Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        model.addAttribute("member", member);
+
+        return "/member/mypage";
+
     }
 }
