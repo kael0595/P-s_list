@@ -18,13 +18,13 @@
             <div>
                 <tr>
                     <th>비밀번호</th>
-                    <td th:text="${username}"></td>
+                    <td></td>
                 </tr>
             </div>
             <div>
                 <tr>
                     <th>비밀번호 확인</th>
-                    <td th:text="${username}"></td>
+                    <td></td>
                 </tr>
             </div>
             <div>
@@ -36,28 +36,34 @@
             <div>
                 <tr>
                     <th>이메일</th>
-                    <td th:text="${username}"></td>
+                    <td th:text="${email}"></td>
                 </tr>
             </div>
             <div>
                 <tr>
                     <th>닉네임</th>
-                    <td th:text="${username}"></td>
+                    <td th:text="${nickname}"></td>
                 </tr>
             </div>
             <div>
                 <tr>
                     <th>기본 주소</th>
-                    <td th:text="${username}"></td>
+                    <td th:text="${addr1}"></td>
                 </tr>
             </div>
             <div>
                 <tr>
                     <th>상세 주소</th>
-                    <td th:text="${username}"></td>
+                    <td th:text="${addr2}"></td>
                 </tr>
             </div>
         </table>
+        <button>
+            <a th:href="@{/member/mypae/${username}/update}">수정하기</a>
+        </button>
+        <button>
+            <a th:href="@{/member/mypae/${username}/delete}">회원탈퇴</a>
+        </button>
     </center>
 </div>
 </body>
