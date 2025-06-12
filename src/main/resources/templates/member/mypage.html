@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>마이페이지</title>
@@ -9,60 +9,40 @@
     <center>
         <table>
             <h1>마이페이지</h1>
-            <div>
-                <tr>
-                    <th>아이디</th>
-                    <td th:text="${username}"></td>
-                </tr>
-            </div>
-            <div>
-                <tr>
-                    <th>비밀번호</th>
-                    <td></td>
-                </tr>
-            </div>
-            <div>
-                <tr>
-                    <th>비밀번호 확인</th>
-                    <td></td>
-                </tr>
-            </div>
-            <div>
-                <tr>
-                    <th>이름</th>
-                    <td th:text="${name}"></td>
-                </tr>
-            </div>
-            <div>
-                <tr>
-                    <th>이메일</th>
-                    <td th:text="${email}"></td>
-                </tr>
-            </div>
-            <div>
-                <tr>
-                    <th>닉네임</th>
-                    <td th:text="${nickname}"></td>
-                </tr>
-            </div>
-            <div>
-                <tr>
-                    <th>기본 주소</th>
-                    <td th:text="${addr1}"></td>
-                </tr>
-            </div>
-            <div>
-                <tr>
-                    <th>상세 주소</th>
-                    <td th:text="${addr2}"></td>
-                </tr>
-            </div>
+            <tr>
+                <th>아이디</th>
+                <td th:text="${member.username}"></td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td>********</td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td th:text="${member.name}"></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td th:text="${member.email}"></td>
+            </tr>
+            <tr>
+                <th>닉네임</th>
+                <td th:text="${member.nickname}"></td>
+            </tr>
+            <tr>
+                <th>기본 주소</th>
+                <td th:text="${member.addr1}"></td>
+            </tr>
+            <tr>
+                <th>상세 주소</th>
+                <td th:text="${member.addr2}"></td>
+            </tr>
         </table>
         <button>
-            <a th:href="@{/member/mypae/${username}/update}">수정하기</a>
+            <a th:href="@{/member/mypage/{username}/update(username = ${username})}">수정하기</a>
         </button>
         <button>
-            <a th:href="@{/member/mypae/${username}/delete}">회원탈퇴</a>
+            <a th:href="@{/member/mypage/${username}/delete(username = ${username})}">회원탈퇴</a>
         </button>
     </center>
 </div>
