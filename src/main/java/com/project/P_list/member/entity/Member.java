@@ -33,6 +33,10 @@ public class Member extends BaseEntity {
 
     @NotNull
     @Column(nullable = false)
+    private String name;
+
+    @NotNull
+    @Column(nullable = false)
     @Email
     private String email;
 
