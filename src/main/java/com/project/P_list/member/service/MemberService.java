@@ -61,4 +61,10 @@ public class MemberService {
 
         memberRepository.save(member);
     }
+
+    public void deleteMember(Member member) {
+        member.setDeleteYn("Y");
+        member.setUpdateDt(LocalDateTime.now());
+        memberRepository.save(member);
+    }
 }

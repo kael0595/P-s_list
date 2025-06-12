@@ -62,8 +62,6 @@ public class MemberController {
 
         Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-        log.info("member : {}", member);
-
         model.addAttribute("member", member);
 
         return "/member/mypage";
@@ -89,6 +87,24 @@ public class MemberController {
         Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         memberService.updateMember(member, memberDto);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/mypage/{username}/delete")
+    public String deleteMember(@PathVariable("username") String username,
+                               HttpServletRequest request,
+                               HttpServletResponse response) {
+
+        Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        memberService.deleteMember(member);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
