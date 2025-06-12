@@ -20,6 +20,9 @@ public class MemberDto {
     @NotBlank
     private final String passwordCnf;
 
+    @NotBlank
+    private final String name;
+
     @Email
     @NotBlank
     private final String email;
