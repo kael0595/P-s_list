@@ -4,11 +4,13 @@ import com.project.P_list.member.dto.MemberDto;
 import com.project.P_list.member.entity.Member;
 import com.project.P_list.member.enums.Grade;
 import com.project.P_list.member.repository.MemberRepository;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -26,6 +28,7 @@ public class MemberService {
         Member member = Member.builder()
                 .username(memberDto.getUsername())
                 .password(passwordEncoder.encode(memberDto.getPassword()))
+                .name(memberDto.getName())
                 .email(memberDto.getEmail())
                 .nickname(memberDto.getNickname())
                 .addr1(memberDto.getAddr1())
@@ -43,5 +46,19 @@ public class MemberService {
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
+    }
+
+    public void updateMember(Member member, MemberDto memberDto) {
+        if (!member.getPassword().equals(memberDto.getPassword())) {
+            member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+        }
+        member.setName(memberDto.getName());
+        member.setEmail(memberDto.getEmail());
+        member.setNickname(memberDto.getNickname());
+        member.setAddr1(memberDto.getAddr1());
+        member.setAddr2(memberDto.getAddr2());
+        member.setUpdateDt(LocalDateTime.now());
+
+        memberRepository.save(member);
     }
 }

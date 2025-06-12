@@ -58,6 +58,29 @@ public class MemberController {
         model.addAttribute("member", member);
 
         return "/member/mypage";
+    }
 
+    @GetMapping("/mypage/{username}/update")
+    public String updateMember(@PathVariable("username") String username,
+                               Model model) {
+
+        Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        model.addAttribute("member", member);
+
+        return "/member/update";
+    }
+
+    @PostMapping("/mypage/{username}/update")
+    public String updateMember(@PathVariable("username") String username,
+                               @Valid MemberDto memberDto) {
+
+        Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        memberService.updateMember(member, memberDto);
+
+
+
+        return "redirect:/";
     }
 }
