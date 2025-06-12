@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보수정</title>
+</head>
+<body>
+<div>
+    <center>
+        <form th:action="@{|/member/mypage/{username}/update(username = ${member.username})|}" method="post">
+            <table>
+                <h1>회원정보수정</h1>
+                <tr>
+                    <th>아이디</th>
+                    <td><input type="text" th:value="${member.username}" name="username" id="username"/></td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td><input type="password" name="password" id="password"></td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td><input type="password" name="passwordCnf" id="passwordCnf"></td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td><input type="text" th:value="${member.name}" name="name" id="name"></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td><input type="text" th:value="${member.email}" name="email" id="email"></td>
+                </tr>
+                <tr>
+                    <th>닉네임</th>
+                    <td><input type="text" th:value="${member.nickname}" name="nickname" id="nickname"></td>
+                </tr>
+                <tr>
+                    <th>기본 주소</th>
+                    <td><input type="text" th:value="${member.addr1}" name="addr1" id="addr1"></td>
+                </tr>
+                <tr>
+                    <th>상세 주소</th>
+                    <td><input type="text" th:value="${member.addr2}" name="addr2" id="addr2"></td>
+                </tr>
+            </table>
+            <button>수정</button>
+            <button>취소</button>
+        </form>
+    </center>
+</div>
+</body>
+</html>
