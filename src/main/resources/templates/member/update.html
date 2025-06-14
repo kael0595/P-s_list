@@ -7,7 +7,7 @@
 <body>
 <div>
     <center>
-        <form th:action="@{|/member/mypage/{username}/update(username = ${member.username})|}" method="post">
+        <form th:action="@{|/member/mypage/${member.username}/update|}" method="post">
             <table>
                 <h1>회원정보수정</h1>
                 <tr>
