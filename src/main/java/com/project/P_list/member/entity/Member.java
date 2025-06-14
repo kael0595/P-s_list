@@ -1,11 +1,9 @@
 package com.project.P_list.member.entity;
 
 import com.project.P_list.base.entity.BaseEntity;
+import com.project.P_list.board.entity.Board;
 import com.project.P_list.member.enums.Grade;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -52,8 +52,12 @@ public class Member extends BaseEntity {
 
     @NotNull
     @Builder.Default
+    @Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
     private String deleteYn = "N";
 
     @Enumerated(EnumType.STRING)
     private Grade grade;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+    private List<Board> boardList;
 }
