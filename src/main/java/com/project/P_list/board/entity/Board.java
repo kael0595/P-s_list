@@ -29,6 +29,11 @@ public class Board extends BaseEntity {
     @Builder.Default
     private String deleteYn = "N";
 
+    @NotNull
+    @Column(nullable = false)
+    @Builder.Default
+    private int hit = 0;
+
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     @NotNull
