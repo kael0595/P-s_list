@@ -9,14 +9,12 @@ import com.project.P_list.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,11 +29,15 @@ public class BoardController {
     private final MemberService memberService;
 
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(@RequestParam(value = "kw", required = false, defaultValue = "") String kw,
+                       @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                       Model model) {
 
-        List<Board> boardList = boardService.findAll();
+        Page<Board> paging = boardService.getList(page, kw);
 
-        model.addAttribute("boardList", boardList);
+        model.addAttribute("page", page);
+
+        model.addAttribute("boardList", paging);
 
         return "/board/list";
     }
