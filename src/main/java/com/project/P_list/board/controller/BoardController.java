@@ -69,6 +69,8 @@ public class BoardController {
 
         Board board = boardService.getBoard(id);
 
+        boardService.increaseHit(board);
+
         model.addAttribute("board", board);
 
         return "/board/detail";

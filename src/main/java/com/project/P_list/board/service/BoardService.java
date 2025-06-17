@@ -31,4 +31,9 @@ public class BoardService {
     public Board getBoard(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
     }
+
+    public void increaseHit(Board board) {
+        board.setHit(board.getHit() + 1);
+        boardRepository.save(board);
+    }
 }
