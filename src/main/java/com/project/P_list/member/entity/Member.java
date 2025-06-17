@@ -52,7 +52,7 @@ public class Member extends BaseEntity {
 
     @NotNull
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
+    @Column(nullable = false, length = 1)
     private String deleteYn = "N";
 
     @Enumerated(EnumType.STRING)

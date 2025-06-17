@@ -25,7 +25,7 @@ public class Board extends BaseEntity {
     private String content;
 
     @NotNull
-    @Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
+    @Column(nullable = false, length = 1)
     @Builder.Default
     private String deleteYn = "N";
 
