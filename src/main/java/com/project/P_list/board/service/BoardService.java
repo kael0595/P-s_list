@@ -1,7 +1,9 @@
 package com.project.P_list.board.service;
 
+import com.project.P_list.board.dto.BoardDto;
 import com.project.P_list.board.entity.Board;
 import com.project.P_list.board.repository.BoardRepository;
+import com.project.P_list.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,14 @@ public class BoardService {
 
     public List<Board> findAll() {
         return boardRepository.findAll();
+    }
+
+    public Board createBoard(BoardDto boardDto, Member member) {
+        Board board = Board.builder()
+                .title(boardDto.getTitle())
+                .content(boardDto.getContent())
+                .author(member)
+                .build();
+        return boardRepository.save(board);
     }
 }
