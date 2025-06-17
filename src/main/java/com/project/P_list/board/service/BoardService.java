@@ -27,4 +27,8 @@ public class BoardService {
                 .build();
         return boardRepository.save(board);
     }
+
+    public Board getBoard(Long id) {
+        return boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+    }
 }

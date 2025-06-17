@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>상세 페이지</title>
+</head>
+<center>
+    <body>
+    <table>
+        <tr>
+            <th>NO.</th>
+            <td th:text="${board.id}"></td>
+        </tr>
+        <tr>
+            <th>제목</th>
+            <td th:text="${board.title}"></td>
+        </tr>
+        <tr>
+            <th>작성자</th>
+            <td th:text="${board.author.username}"></td>
+        </tr>
+        <tr>
+            <th>작성일자</th>
+            <td th:text="${board.createDt}"></td>
+            <th>조회수</th>
+            <td th:text="${board.hit}"></td>
+        </tr>
+        <tr>
+            <td th:text="${board.content}"></td>
+        </tr>
+
+    </table>
+    <button>
+        <a th:href="@{|/board/detail/${board.id}/update|}">수정</a>
+    </button>
+    <button>
+        <a th:href="@{|/board/detail/${board.id}/delete|}">삭제</a>
+    </button>
+    </body>
+</center>
+</html>
