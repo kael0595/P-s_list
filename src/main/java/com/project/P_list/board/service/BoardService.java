@@ -42,4 +42,9 @@ public class BoardService {
         board.setContent(boardDto.getContent());
         boardRepository.save(board);
     }
+
+    public void deleteBoard(Board board) {
+        board.setDeleteYn("Y");
+        boardRepository.save(board);
+    }
 }
