@@ -75,4 +75,38 @@ public class BoardController {
 
         return "/board/detail";
     }
+
+    @GetMapping("/detail/{id}/update")
+    public String updateBoard(@PathVariable("id") Long id,
+                              Model model) {
+
+        Board board = boardService.getBoard(id);
+
+        model.addAttribute("board", board);
+
+        return "/board/update";
+    }
+
+    @PostMapping("/detail/{id}/update")
+    public String updateBoard(@PathVariable("id") Long id,
+                              @Valid BoardDto boardDto,
+                              BindingResult bindingResult,
+                              @AuthenticationPrincipal SecurityUser securityUser) {
+
+        if (bindingResult.hasErrors()) {
+            return "board/update";
+        }
+
+        Board board = boardService.getBoard(id);
+
+        Member loginMember = memberService.getMember(securityUser.getUsername());
+
+        if (!board.getAuthor().getUsername().equals(loginMember.getUsername())) {
+            return "board/update";
+        }
+
+        boardService.updateBoard(board, boardDto);
+
+        return "redirect:/board/detail/" + board.getId();
+    }
 }

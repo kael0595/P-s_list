@@ -36,4 +36,10 @@ public class BoardService {
         board.setHit(board.getHit() + 1);
         boardRepository.save(board);
     }
+
+    public void updateBoard(Board board, BoardDto boardDto) {
+        board.setTitle(boardDto.getTitle());
+        board.setContent(boardDto.getContent());
+        boardRepository.save(board);
+    }
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+</head>
+<body>
+<center>
+    <form th:action="@{|/board/detail/${board.id}/update|}" method="post">
+        <div>
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" th:value="${board.title}">
+        </div>
+        <div>
+            <label for="content">내용</label>
+            <textarea name="content" id="content" cols="30" rows="10" th:text="${board.content}"></textarea>
+        </div>
+        <button>수정</button>
+        <button>취소</button>
+    </form>
+</center>
+</body>
+</html>
