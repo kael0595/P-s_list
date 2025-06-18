@@ -31,9 +31,18 @@ public class BoardController {
     @GetMapping("/list")
     public String list(@RequestParam(value = "kw", required = false, defaultValue = "") String kw,
                        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                       @RequestParam(value = "size", required = false, defaultValue = "10") int size,
                        Model model) {
 
-        Page<Board> paging = boardService.getList(page, kw);
+        Page<Board> paging = boardService.getList(page, size, kw);
+
+        int totalCount = boardService.countByKeyword(kw);
+
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+
+        if (page < 0) page = 0;
+
+        if (page >= totalPages) page = totalPages > 0 ? totalPages - 1 : 0;
 
         model.addAttribute("paging", paging);
 
