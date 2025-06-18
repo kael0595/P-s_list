@@ -71,11 +71,15 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public Page<Board> getList(int page, String kw) {
+    public Page<Board> getList(int page, int size, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDt"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sorts));
         Specification<Board> spec = search(kw);
         return boardRepository.findAll(spec, pageable);
+    }
+
+    public int countByKeyword(String kw) {
+        return boardRepository.countByKeyword(kw);
     }
 }
