@@ -37,6 +37,8 @@ public class BoardController {
 
         model.addAttribute("page", page);
 
+        model.addAttribute("kw", kw);
+
         model.addAttribute("boardList", paging);
 
         return "/board/list";
