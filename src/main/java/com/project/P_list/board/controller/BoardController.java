@@ -35,11 +35,11 @@ public class BoardController {
 
         Page<Board> paging = boardService.getList(page, kw);
 
+        model.addAttribute("paging", paging);
+
         model.addAttribute("page", page);
 
         model.addAttribute("kw", kw);
-
-        model.addAttribute("boardList", paging);
 
         return "/board/list";
     }
