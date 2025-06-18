@@ -20,6 +20,7 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/", "/member/join", "/member/login", "/board/list", "/board/detail/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login
