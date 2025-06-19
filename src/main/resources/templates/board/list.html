@@ -10,15 +10,15 @@
 </head>
 <div layout:fragment="content" class="container my-3">
     <h1 style="text-align: center;">게시글 목록</h1>
-    <div class="">
+    <div>
         <div class="row my-3">
             <form class="d-flex mb-3 justify-content-center" th:action="@{/board/list}" method="get">
                 <input type="text" name="kw" th:value="${kw}" class="form-control me-2 w-25">
                 <button type="submit" class="btn btn-outline-secondary" id="search">검색</button>
             </form>
         </div>
-        <div>
-            <a class="btn btn-primary" th:href="@{/board/create}">게시글 작성</a>
+        <div class="d-grid d-md-flex justify-content-md-end">
+            <a class="btn btn-primary me-md-2" th:href="@{/board/create}">게시글 작성</a>
         </div>
     </div>
     <div>
