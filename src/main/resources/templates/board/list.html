@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,78 +8,78 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <title>게시글 목록</title>
 </head>
-<body>
-<h1 style="text-align: center;">게시글 목록</h1>
-<div class="">
-    <div class="row my-3">
-        <form class="d-flex mb-3 justify-content-center" th:action="@{/board/list}" method="get">
-            <input type="text" name="kw" th:value="${kw}" class="form-control me-2 w-25">
-            <button type="submit" class="btn btn-outline-secondary" id="search">검색</button>
-        </form>
+<div layout:fragment="content" class="container my-3">
+    <h1 style="text-align: center;">게시글 목록</h1>
+    <div class="">
+        <div class="row my-3">
+            <form class="d-flex mb-3 justify-content-center" th:action="@{/board/list}" method="get">
+                <input type="text" name="kw" th:value="${kw}" class="form-control me-2 w-25">
+                <button type="submit" class="btn btn-outline-secondary" id="search">검색</button>
+            </form>
+        </div>
+        <div>
+            <a class="btn btn-primary" th:href="@{/board/create}">게시글 작성</a>
+        </div>
     </div>
     <div>
-        <a class="btn btn-primary" th:href="@{/board/create}">게시글 작성</a>
+        <table class="table">
+            <thead class="table-dark">
+            <tr class="text-center">
+                <th>NO.</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>작성자</th>
+                <th>작성일자</th>
+                <th>수정일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${board.deleteYn eq 'N'}" class="text-center" th:each="board, loop : ${paging}">
+                <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+                <td style="width: 50%;">
+                    <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
+                </td>
+                <td th:text="${board.hit}"></td>
+                <td th:text="${board.author.username}"></td>
+                <td th:text="${#temporals.format(board.createDt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(board.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-</div>
-<div>
-    <table class="table">
-        <thead class="table-dark">
-        <tr class="text-center">
-            <th>NO.</th>
-            <th>제목</th>
-            <th>조회수</th>
-            <th>작성자</th>
-            <th>작성일자</th>
-            <th>수정일자</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${board.deleteYn eq 'N'}" class="text-center" th:each="board, loop : ${paging}">
-            <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-            <td style="width: 50%;">
-                <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
-            </td>
-            <td th:text="${board.hit}"></td>
-            <td th:text="${board.author.username}"></td>
-            <td th:text="${#temporals.format(board.createDt, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(board.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div th:if="${paging.totalElements >= 0}">
-    <ul class="pagination justify-content-center">
-        <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-            <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
-                <span>이전</span>
-            </a>
-        </li>
-        <th:block th:if="${paging.totalPages > 0}">
-            <li class="page-item"
-                th:each="page : ${#numbers.sequence(0, paging.totalPages - 1)}"
-                th:if="${page >= paging.number - 3 and page <= paging.number + 3}"
-                th:classappend="${page == paging.number} ? 'active'">
-                <a class="page-link"
-                   th:href="@{|/board/list?page=${page}&kw=${kw}|}"
-                   th:text="${page + 1}"></a>
+    <div th:if="${paging.totalElements >= 0}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+                    <span>이전</span>
+                </a>
             </li>
-        </th:block>
+            <th:block th:if="${paging.totalPages > 0}">
+                <li class="page-item"
+                    th:each="page : ${#numbers.sequence(0, paging.totalPages - 1)}"
+                    th:if="${page >= paging.number - 3 and page <= paging.number + 3}"
+                    th:classappend="${page == paging.number} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{|/board/list?page=${page}&kw=${kw}|}"
+                       th:text="${page + 1}"></a>
+                </li>
+            </th:block>
 
-        <!-- 검색 결과 없을 때 페이지 번호 1만 출력 -->
-        <th:block th:if="${paging.totalPages == 0}">
-            <li class="page-item active">
-                <a class="page-link" th:href="@{|/board/list?kw=${kw}&page=1|}">1</a>
+            <!-- 검색 결과 없을 때 페이지 번호 1만 출력 -->
+            <th:block th:if="${paging.totalPages == 0}">
+                <li class="page-item active">
+                    <a class="page-link" th:href="@{|/board/list?kw=${kw}&page=1|}">1</a>
+                </li>
+            </th:block>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+                    <span>다음</span>
+                </a>
             </li>
-        </th:block>
-        <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-            <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
-                <span>다음</span>
-            </a>
-        </li>
-    </ul>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
 </div>
-<!-- 페이징처리 끝 -->
-</body>
 <script layout:fragment="script" type='text/javascript'>
     const page_elements = document.getElementsByClassName("page-link");
     Array.from(page_elements).forEach(function (element) {
