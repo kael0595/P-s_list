@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>게시글 등록</title>
 </head>
-<body style="text-align: center;">
+<div layout:fragment="content" class="container my-3">
 <h1>게시글 등록</h1>
 <form th:action="@{/board/create}" method="post">
     <div>
@@ -18,5 +18,5 @@
     <button>등록</button>
     <button>취소</button>
 </form>
-</body>
+</div>
 </html>

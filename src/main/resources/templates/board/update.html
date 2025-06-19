@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>게시글 수정</title>
 </head>
-<body>
-<center>
+<div layout:fragment="content" class="container my-3">
     <form th:action="@{|/board/detail/${board.id}/update|}" method="post">
         <div>
             <label for="title">제목</label>
@@ -18,6 +17,5 @@
         <button>수정</button>
         <button>취소</button>
     </form>
-</center>
-</body>
+</div>
 </html>

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>상세 페이지</title>
 </head>
-<center>
-    <body>
+<div layout:fragment="content" class="container my-3">
     <table>
         <tr>
             <th>NO.</th>
@@ -36,6 +35,5 @@
     <button>
         <a th:href="@{|/board/detail/${board.id}/delete|}">삭제</a>
     </button>
-    </body>
-</center>
+</div>
 </html>

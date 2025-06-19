@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>회원정보수정</title>
 </head>
-<body>
-<div>
+<div layout:fragment="content" class="container my-3">
     <center>
         <form th:action="@{|/member/mypage/${member.username}/update|}" method="post">
             <table>
@@ -48,5 +47,4 @@
         </form>
     </center>
 </div>
-</body>
 </html>
