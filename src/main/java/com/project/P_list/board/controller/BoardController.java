@@ -89,7 +89,7 @@ public class BoardController {
         return "/board/detail";
     }
 
-    @GetMapping("/detail/{id}/update")
+    @GetMapping("/update/{id}")
     public String updateBoard(@PathVariable("id") Long id,
                               Model model) {
 
@@ -100,7 +100,7 @@ public class BoardController {
         return "/board/update";
     }
 
-    @PostMapping("/detail/{id}/update")
+    @PostMapping("/update/{id}")
     public String updateBoard(@PathVariable("id") Long id,
                               @Valid BoardDto boardDto,
                               BindingResult bindingResult,
@@ -123,7 +123,7 @@ public class BoardController {
         return "redirect:/board/detail/" + board.getId();
     }
 
-    @GetMapping("/detail/{id}/delete")
+    @GetMapping("/delete/{id}")
     public String deleteBoard(@PathVariable("id") Long id) {
 
         Board board = boardService.getBoard(id);
