@@ -6,9 +6,6 @@
 </head>
 <body>
 <div layout:fragment="content" class="container my-3">
-    <div class="text-center mb-4">
-        <h1 th:text="${board.title}">게시글 제목</h1>
-    </div>
     <div class="border rounded p-4 bg-white shadow-sm mb-4">
         <h2 th:text="${board.title}"></h2>
         <p class="text-muted">작성자: <span th:text="${board.author.username}"></span></p>
