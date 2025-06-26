@@ -2,6 +2,7 @@ package com.project.P_list.member.entity;
 
 import com.project.P_list.base.entity.BaseEntity;
 import com.project.P_list.board.entity.Board;
+import com.project.P_list.comment.entity.Comment;
 import com.project.P_list.member.enums.Grade;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -60,4 +61,7 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private List<Board> boardList;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList;
 }
