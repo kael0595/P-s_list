@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class BoardService {
     public void updateBoard(Board board, BoardDto boardDto) {
         board.setTitle(boardDto.getTitle());
         board.setContent(boardDto.getContent());
+        board.setUpdateDt(LocalDateTime.now());
         boardRepository.save(board);
     }
 
