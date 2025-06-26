@@ -9,7 +9,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.nio.file.AccessDeniedException;
 
 @Controller
 @RequiredArgsConstructor
@@ -58,7 +62,12 @@ public class MemberController {
 
     @GetMapping("/mypage/{username}")
     public String mypage(@PathVariable("username") String username,
-                         Model model) {
+                         @AuthenticationPrincipal UserDetails userDetails,
+                         Model model) throws Exception{
+
+        if (!username.equals(userDetails.getUsername())) {
+            throw new AccessDeniedException("접근 권한이 없습니다.");
+        }
 
         Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
