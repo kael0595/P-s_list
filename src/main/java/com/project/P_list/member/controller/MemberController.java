@@ -1,5 +1,6 @@
 package com.project.P_list.member.controller;
 
+import com.project.P_list.base.security.SecurityUser;
 import com.project.P_list.member.dto.MemberDto;
 import com.project.P_list.member.entity.Member;
 import com.project.P_list.member.service.MemberService;
@@ -62,14 +63,14 @@ public class MemberController {
 
     @GetMapping("/mypage/{username}")
     public String mypage(@PathVariable("username") String username,
-                         @AuthenticationPrincipal UserDetails userDetails,
-                         Model model) throws Exception{
-
-        if (!username.equals(userDetails.getUsername())) {
-            throw new AccessDeniedException("접근 권한이 없습니다.");
-        }
+                         @AuthenticationPrincipal SecurityUser securityUser,
+                         Model model) throws Exception {
 
         Member member = memberService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        if (!member.getUsername().equals(securityUser.getUsername())) {
+            throw new AccessDeniedException("접근 권한이 없습니다.");
+        }
 
         model.addAttribute("member", member);
 
