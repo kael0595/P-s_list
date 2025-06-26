@@ -1,5 +1,6 @@
 package com.project.P_list.comment.entity;
 
+import com.project.P_list.base.entity.BaseEntity;
 import com.project.P_list.board.entity.Board;
 import com.project.P_list.member.entity.Member;
 import jakarta.persistence.*;
@@ -9,14 +10,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class Comment {
+public class Comment extends BaseEntity {
 
     @NotNull
     private String content;
