@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.nio.file.AccessDeniedException;
 
 @Controller
 @RequiredArgsConstructor
@@ -104,7 +104,7 @@ public class BoardController {
     public String updateBoard(@PathVariable("id") Long id,
                               @Valid BoardDto boardDto,
                               BindingResult bindingResult,
-                              @AuthenticationPrincipal SecurityUser securityUser) {
+                              @AuthenticationPrincipal SecurityUser securityUser) throws Exception {
 
         if (bindingResult.hasErrors()) {
             return "board/update";
@@ -112,10 +112,10 @@ public class BoardController {
 
         Board board = boardService.getBoard(id);
 
-        Member loginMember = memberService.getMember(securityUser.getUsername());
+        Member loginMember = memberService.findByUsername(securityUser.getUsername()).orElseThrow(() -> new IllegalArgumentException("접근 권한이 없습니다."));
 
         if (!board.getAuthor().getUsername().equals(loginMember.getUsername())) {
-            return "board/update";
+            throw new AccessDeniedException("수정 권한이 없습니다.");
         }
 
         boardService.updateBoard(board, boardDto);
@@ -124,9 +124,16 @@ public class BoardController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteBoard(@PathVariable("id") Long id) {
+    public String deleteBoard(@PathVariable("id") Long id,
+                              @AuthenticationPrincipal SecurityUser securityUser) throws Exception {
 
         Board board = boardService.getBoard(id);
+
+        Member loginMember = memberService.findByUsername(securityUser.getUsername()).orElseThrow(() -> new IllegalArgumentException("접근 권한이 없습니다."));
+
+        if (!board.getAuthor().getUsername().equals(loginMember.getUsername())) {
+            throw new AccessDeniedException("삭제 권한이 없습니다.");
+        }
 
         boardService.deleteBoard(board);
 
