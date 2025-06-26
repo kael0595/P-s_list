@@ -8,9 +8,23 @@
 <div layout:fragment="content" class="container my-3">
     <div class="border rounded p-4 bg-white shadow-sm mb-4">
         <h2 th:text="${board.title}"></h2>
-        <p class="text-muted">작성자: <span th:text="${board.author.username}"></span></p>
+        <p class="text-muted">
+            작성자: <span th:text="${board.author.username}"></span>
+            조회수: <span th:text="${board.hit}"></span>
+            작성일자 : <span th:text="${#temporals.format(board.createDt, 'yyyy-MM-dd')}"></span>
+            수정일자 : <span th:text="${#temporals.format(board.updateDt, 'yyyy-MM-dd')}"></span>
+        </p>
         <hr>
         <div th:utext="${board.content}"></div>
+    </div>
+    <div class="d-flex justify-content-end gap-2">
+        <a sec:Authorize="isAuthenticated()" th:href="@{|/board/update/${board.id}|}"
+           class="btn btn-outline-secondary btn-sm">수정</a>
+        <form sec:Authorize="isAuthenticated()" th:action="@{|/board/delete/${board.id}|}" method="post"
+              onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <button type="submit" class="btn btn-outline-danger btn-sm">삭제</button>
+        </form>
+        <a th:href="@{/board/list}" class="btn btn-outline-primary btn-sm">목록</a>
     </div>
 </div>
 </body>
