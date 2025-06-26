@@ -42,8 +42,8 @@
                 </td>
                 <td th:text="${board.hit}"></td>
                 <td th:text="${board.author.username}"></td>
-                <td th:text="${#temporals.format(board.createDt, 'yyyy-MM-dd HH:mm')}"></td>
-                <td th:text="${#temporals.format(board.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(board.createDt, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#temporals.format(board.updateDt, 'yyyy-MM-dd')}"></td>
             </tr>
             </tbody>
         </table>
