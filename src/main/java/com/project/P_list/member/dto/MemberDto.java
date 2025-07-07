@@ -14,10 +14,8 @@ public class MemberDto {
     @NotBlank
     private final String username;
 
-    @NotBlank
     private final String password;
 
-    @NotBlank
     private final String passwordCnf;
 
     @NotBlank
