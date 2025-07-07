@@ -27,5 +27,6 @@ public class Comment extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
+    @NotNull
     private Board board;
 }
