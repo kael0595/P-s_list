@@ -26,6 +26,35 @@
         </form>
         <a th:href="@{/board/list}" class="btn btn-outline-primary btn-sm">목록</a>
     </div>
+    <div id="comment-list">
+        <ul>
+            <li th:each="comment : ${board.commentList}" th:id="'comment-' + ${comment.id}">
+                <strong th:text="${comment.author.username}"></strong>:
+                <span th:text="${comment.content}"></span>
+                <button onclick="deleteComment([[${comment.id}]])">삭제</button>
+            </li>
+        </ul>
+    </div>
+    <textarea name="commentContent" id="commentContent" cols="30" rows="10"></textarea>
+    <button th:onclick="'submitComment(' + ${board.id} + ')'">댓글 작성</button>
 </div>
+
 </body>
+<th:block layout:fragment="script">
+    <script>
+        function submitComment(boardId) {
+            const content = document.getElementById("commentContent").value;
+            fetch("/comments/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ boardId, content })
+            }).then(res => {
+                if (res.ok) location.reload();
+                else alert("댓글 등록 실패");
+            });
+        }
+    </script>
+</th:block>
 </html>
