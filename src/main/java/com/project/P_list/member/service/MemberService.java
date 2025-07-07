@@ -50,7 +50,14 @@ public class MemberService {
     }
 
     public void updateMember(Member member, MemberDto memberDto) {
-        if (!member.getPassword().equals(memberDto.getPassword())) {
+
+        String password = memberDto.getPassword();
+        String passwordCnf = memberDto.getPasswordCnf();
+
+        if (password != null && passwordCnf != null
+                && password.equals(passwordCnf)
+                && !passwordEncoder.matches(memberDto.getPassword(), member.getPassword())
+                && !memberDto.getPassword().isEmpty()) {
             member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         }
         member.setName(memberDto.getName());
