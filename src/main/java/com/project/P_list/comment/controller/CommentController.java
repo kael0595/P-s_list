@@ -33,5 +33,15 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateComment(@PathVariable("id") Long id,
+                                           @AuthenticationPrincipal SecurityUser securityUser,
+                                           @RequestBody CommentDto commentDto) {
+
+        commentService.updateComment(id, securityUser.getUsername(), commentDto);
+
+        return ResponseEntity.ok().build();
+
+    }
 
 }

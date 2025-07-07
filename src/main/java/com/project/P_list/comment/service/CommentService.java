@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -46,5 +48,23 @@ public class CommentService {
         if (!comment.getAuthor().getUsername().equals(member.getUsername())) {
             throw new AccessDeniedException("삭제 권한이 없습니다.");
         }
+
+        commentRepository.delete(comment);
+    }
+
+    public void updateComment(Long id, String username, CommentDto commentDto) {
+
+        Comment comment = commentRepository.findById(id).orElseThrow();
+
+        Member member = memberRepository.findByUsername(username).orElseThrow();
+
+        if (!comment.getAuthor().getUsername().equals(member.getUsername())) {
+            throw new AccessDeniedException("수정 권한이 없습니다.");
+        }
+
+        comment.setContent(commentDto.getContent());
+        comment.setUpdateDt(LocalDateTime.now());
+        commentRepository.save(comment);
+
     }
 }

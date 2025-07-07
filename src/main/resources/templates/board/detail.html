@@ -30,8 +30,10 @@
         <ul>
             <li th:each="comment : ${board.commentList}" th:id="'comment-' + ${comment.id}">
                 <strong th:text="${comment.author.username}"></strong>:
-                <span th:text="${comment.content}"></span>
-                <button onclick="deleteComment([[${comment.id}]])">삭제</button>
+                <span th:id="'content-' + ${comment.id}" th:text="${comment.content}"></span>
+                <button class="btn btn-outline-secondary btn-sm" th:onclick="updateComment([[${comment.id}]])">수정
+                </button>
+                <button class="btn btn-outline-danger btn-sm" th:onclick="deleteComment([[${comment.id}]])">삭제</button>
             </li>
         </ul>
     </div>
@@ -53,6 +55,54 @@
             }).then(res => {
                 if (res.ok) location.reload();
                 else alert("댓글 등록 실패");
+            });
+        }
+
+        function updateComment(commentId) {
+
+            const contentSpan = document.getElementById('content-' + commentId);
+            const originText = contentSpan.innerText;
+
+            contentSpan.innerHTML = `
+                <textarea id="updateArea-${commentId}" rows="3" cols="50">${originText}</textarea>
+                <br/>
+                <button onclick="submitUpdate(${commentId})">저장</button>
+                <button onclick="cancelUpdate(${commentId}, \`${originText}\`)">취소</button>
+            `;
+        }
+
+        function cancelUpdate(commentId, originText) {
+            const contentSpan = document.getElementById('content-' + commentId);
+            contentSpan.innerText = originText;
+        }
+
+        function submitUpdate(commentId) {
+            const newContent = document.getElementById('updateArea-' + commentId).value;
+
+            fetch(`/comments/${commentId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ content: newContent })
+            }).then(res => {
+                if (res.ok) {
+                    document.getElementById('content-' + commentId).innerText = newContent;
+                } else {
+                    alert("수정 실패");
+                }
+            });
+        }
+
+        function deleteComment(commentId) {
+            fetch(`/comments/${commentId}`, {
+                method: "DELETE"
+            }).then(res => {
+                if (res.ok) {
+                    document.getElementById('comment-' + commentId).remove();
+                } else {
+                    alert("댓글 삭제 실패");
+                }
             });
         }
     </script>
