@@ -25,7 +25,7 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/member/login")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/", true)
                         .failureUrl("/member/login?error=true")
                 )
                 .logout(logout -> logout
