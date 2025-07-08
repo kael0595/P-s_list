@@ -20,6 +20,9 @@ public class Comment extends BaseEntity {
     @NotNull
     private String content;
 
+    @NotNull
+    private String deleteYn = "N";
+
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     @NotNull
