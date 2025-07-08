@@ -26,21 +26,39 @@
         </form>
         <a th:href="@{/board/list}" class="btn btn-outline-primary btn-sm">목록</a>
     </div>
-    <div id="comment-list">
-        <ul>
-            <li th:each="comment : ${board.commentList}" th:id="'comment-' + ${comment.id}">
-                <strong th:text="${comment.author.username}"></strong>:
-                <span th:id="'content-' + ${comment.id}" th:text="${comment.content}"></span>
-                <button class="btn btn-outline-secondary btn-sm" th:onclick="updateComment([[${comment.id}]])">수정
-                </button>
-                <button class="btn btn-outline-danger btn-sm" th:onclick="deleteComment([[${comment.id}]])">삭제</button>
+    <div class="mt-5">
+        <h4 class="mb-3">댓글</h4>
+        <ul class="list-unstyled">
+            <li th:each="comment : ${board.commentList}" th:id="'comment-' + ${comment.id}" class="mb-3">
+                <div class="border p-3 rounded bg-white shadow-sm">
+                    <div class="fw-bold mb-2">
+                        <strong th:text="${comment.author.username}"></strong>
+                        <span class="text-muted small">(작성자)</span>
+                    </div>
+                    <div th:id="'content-' + ${comment.id}" th:text="${comment.content}" class="comment-content"></div>
+                    <div th:id="'buttons-' + ${comment.id}" sec:authorize="isAuthenticated()" class="mt-2 d-flex gap-2">
+                        <button class="btn btn-outline-secondary btn-sm"
+                                th:onclick="'updateComment(' + ${comment.id} + ')'">수정
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm"
+                                th:onclick="'deleteComment(' + ${comment.id} + ')'">삭제
+                        </button>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
-    <textarea name="commentContent" id="commentContent" cols="30" rows="10"></textarea>
-    <button th:onclick="'submitComment(' + ${board.id} + ')'">댓글 작성</button>
-</div>
 
+    <div sec:authorize="isAuthenticated()" class="mt-5">
+        <h4 class="mb-3">댓글 작성</h4>
+        <div class="mb-3">
+            <label for="commentContent" class="form-label">내용</label>
+            <textarea class="form-control" name="commentContent" id="commentContent" rows="5"
+                      placeholder="댓글을 입력하세요."></textarea>
+        </div>
+        <button class="btn btn-primary" th:onclick="'submitComment(' + ${board.id} + ')'">등록</button>
+    </div>
+</div>
 </body>
 <th:block layout:fragment="script">
     <script>
@@ -59,21 +77,35 @@
         }
 
         function updateComment(commentId) {
-
             const contentSpan = document.getElementById('content-' + commentId);
             const originText = contentSpan.innerText;
 
+            const buttons = document.getElementById('buttons-' + commentId);
+
+            if(buttons) {
+                buttons.style.setProperty('display', 'none', 'important');
+            }
+
             contentSpan.innerHTML = `
-                <textarea id="updateArea-${commentId}" rows="3" cols="50">${originText}</textarea>
-                <br/>
-                <button onclick="submitUpdate(${commentId})">저장</button>
-                <button onclick="cancelUpdate(${commentId}, \`${originText}\`)">취소</button>
+                <div class="mb-2">
+                    <textarea class="form-control" id="updateArea-${commentId}" rows="4">${originText}</textarea>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-primary" onclick="submitUpdate(${commentId})">저장</button>
+                    <button class="btn btn-sm btn-secondary" onclick="cancelUpdate(${commentId}, \`${originText}\`)">취소</button>
+                </div>
             `;
         }
 
         function cancelUpdate(commentId, originText) {
             const contentSpan = document.getElementById('content-' + commentId);
             contentSpan.innerText = originText;
+
+            const buttons = document.getElementById('buttons-' + commentId);
+
+            if (buttons) {
+                buttons.style.setProperty('display', 'flex', 'important');
+            }
         }
 
         function submitUpdate(commentId) {
@@ -87,7 +119,13 @@
                 body: JSON.stringify({ content: newContent })
             }).then(res => {
                 if (res.ok) {
-                    document.getElementById('content-' + commentId).innerText = newContent;
+                    const contentSpan = document.getElementById('content-' + commentId);
+                    contentSpan.innerText = newContent;
+
+                    const buttons = document.getElementById('buttons-' + commentId);
+                    if (buttons) {
+                        buttons.style.setProperty('display','flex','important');
+                    }
                 } else {
                     alert("수정 실패");
                 }
