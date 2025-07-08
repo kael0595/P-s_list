@@ -29,7 +29,7 @@
     <div class="mt-5">
         <h4 class="mb-3">댓글</h4>
         <ul class="list-unstyled">
-            <li th:each="comment : ${board.commentList}" th:id="'comment-' + ${comment.id}" class="mb-3">
+            <li th:if="${comment.deleteYn ne 'Y'}" th:each="comment : ${board.commentList}" th:id="'comment-' + ${comment.id}" class="mb-3">
                 <div class="border p-3 rounded bg-white shadow-sm">
                     <div class="fw-bold mb-2">
                         <strong th:text="${comment.author.username}"></strong>
@@ -64,7 +64,7 @@
     <script>
         function submitComment(boardId) {
             const content = document.getElementById("commentContent").value;
-            fetch("/comments/create", {
+            fetch("/comments", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
