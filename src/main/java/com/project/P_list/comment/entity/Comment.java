@@ -21,7 +21,7 @@ public class Comment extends BaseEntity {
     private String content;
 
     @NotNull
-    private String deleteYn = "N";
+    private String deleteYn;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
