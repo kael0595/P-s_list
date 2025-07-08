@@ -15,7 +15,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody CommentDto commentDto,
                                     @AuthenticationPrincipal SecurityUser securityUser) {
 
