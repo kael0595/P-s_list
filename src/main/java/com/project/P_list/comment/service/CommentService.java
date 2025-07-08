@@ -25,8 +25,6 @@ public class CommentService {
 
     public void create(CommentDto commentDto, String username) {
 
-        System.out.println("boardId : " + commentDto.getBoardId());
-
         Board board = boardRepository.findById(commentDto.getBoardId()).orElseThrow();
 
         Member member = memberRepository.findByUsername(username).orElseThrow();
@@ -35,6 +33,7 @@ public class CommentService {
                 .board(board)
                 .author(member)
                 .content(commentDto.getContent())
+                .deleteYn("N")
                 .build();
         commentRepository.save(comment);
     }
@@ -49,7 +48,9 @@ public class CommentService {
             throw new AccessDeniedException("삭제 권한이 없습니다.");
         }
 
-        commentRepository.delete(comment);
+        comment.setDeleteYn("Y");
+        comment.setUpdateDt(LocalDateTime.now());
+        commentRepository.save(comment);
     }
 
     public void updateComment(Long id, String username, CommentDto commentDto) {
