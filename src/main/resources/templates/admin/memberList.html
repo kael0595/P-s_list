@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 목록</title>
+</head>
+<body>
+<div layout:fragment="content" class="container my-3">
+    <h1 class="text-center">회원 관리</h1>
+    <table class="table">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>NO.</th>
+            <th>아이디</th>
+            <th>성명</th>
+            <th>닉네임</th>
+            <th>이메일</th>
+            <th>기본주소</th>
+            <th>상세주소</th>
+            <th>회원등급</th>
+            <th>탈퇴여부</th>
+            <th>가입일자</th>
+            <th>수정일자</th>
+            <th>권한변경</th>
+            <th>상태변경</th>
+        </tr>
+        </thead>
+        <tbody class="text-center">
+        <tr th:each="member : ${memberList}">
+            <th th:text="${member.id}"></th>
+            <th th:text="${member.username}"></th>
+            <th th:text="${member.name}"></th>
+            <th th:text="${member.nickname}"></th>
+            <th th:text="${member.email}"></th>
+            <th th:text="${member.addr1}"></th>
+            <th th:text="${member.addr2}"></th>
+            <th th:text="${member.grade}"></th>
+            <th th:text="${member.deleteYn}"></th>
+            <th th:text="${#temporals.format(member.createDt, 'yyyy-MM-dd hh:mm')}"></th>
+            <th th:text="${#temporals.format(member.updateDt, 'yyyy-MM-dd hh:mm')}"></th>
+            <th>
+                <button>권한변경</button>
+            </th>
+            <th>
+                <button>상태변경</button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
