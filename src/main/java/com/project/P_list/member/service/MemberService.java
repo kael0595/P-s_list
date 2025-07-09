@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -78,5 +79,9 @@ public class MemberService {
 
     public Member getMember(String username) {
         return memberRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없스니다."));
+    }
+
+    public List<Member> getAll() {
+        return memberRepository.findAll();
     }
 }
