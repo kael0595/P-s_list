@@ -4,8 +4,6 @@ import com.project.P_list.member.dto.MemberDto;
 import com.project.P_list.member.entity.Member;
 import com.project.P_list.member.enums.Grade;
 import com.project.P_list.member.repository.MemberRepository;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -83,5 +81,14 @@ public class MemberService {
 
     public List<Member> getAll() {
         return memberRepository.findAll();
+    }
+
+    public void changAuth(Member member) {
+        if (member.getGrade() == Grade.ADMIN) {
+            member.setGrade(Grade.USER);
+        } else {
+            member.setGrade(Grade.ADMIN);
+        }
+        memberRepository.save(member);
     }
 }
