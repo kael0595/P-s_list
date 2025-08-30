@@ -28,7 +28,7 @@
         <tbody class="text-center">
         <tr th:each="member : ${memberList}">
             <th th:text="${member.id}"></th>
-            <th th:text="${member.username}"></th>
+            <th th:text="${member.username}" th:data-id="${member.username}"></th>
             <th th:text="${member.name}"></th>
             <th th:text="${member.nickname}"></th>
             <th th:text="${member.email}"></th>
@@ -36,10 +36,10 @@
             <th th:text="${member.addr2}"></th>
             <th th:text="${member.grade}"></th>
             <th th:text="${member.deleteYn}"></th>
-            <th th:text="${#temporals.format(member.createDt, 'yyyy-MM-dd hh:mm')}"></th>
-            <th th:text="${#temporals.format(member.updateDt, 'yyyy-MM-dd hh:mm')}"></th>
+            <th th:text="${#temporals.format(member.createDt, 'yyyy-MM-dd HH:mm')}"></th>
+            <th th:text="${#temporals.format(member.updateDt, 'yyyy-MM-dd HH:mm')}"></th>
             <th>
-                <button>권한변경</button>
+                <button class="auth-btn" onclick="authUpdate(this)">권한변경</button>
             </th>
             <th>
                 <button>상태변경</button>
@@ -48,5 +48,35 @@
         </tbody>
     </table>
 </div>
+<div layout:fragment="script">
+    <script>
+        function authUpdate(button) {
+            const row = button.closest('tr');
+            const username = row.querySelector('[data-id]').getAttribute('data-id');
+            console.log("username:", username);
+
+            fetch("/admin/updateAuth", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({username: username})
+            }).then(res => {
+                if(res.ok) {
+                    alert("권한이 변경되었습니다.");
+                    location.reload();
+                } else if(res.status === 403) {
+                    alert("권한이 없습니다.");
+                } else {
+                    alert("권한 수정 실패");
+                }
+            }).catch(err => {
+                console.error(err);
+                alert("권한 수정 중 오류 발생");
+            });
+        }
+    </script>
+</div>
+
 </body>
 </html>
